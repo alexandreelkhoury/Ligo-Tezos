@@ -9,6 +9,6 @@ jobs:
         steps:
             - uses: actions/checkout@v2
             - name: LIGO Compile
-              run: male ligo-compile
+              run: make ligo-compile
             - name: LIGO Test
               run: make ligo-test
