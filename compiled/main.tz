@@ -1,0 +1,74 @@
+{ parameter (or (nat %checkWinner) (nat %submitNumber)) ;
+  storage
+    (pair (pair (address %admin) (map %numbers nat address)) (option %winner address)) ;
+  code { UNPAIR ;
+         IF_LEFT
+           { SENDER ;
+             DUP 3 ;
+             CAR ;
+             CAR ;
+             COMPARE ;
+             NEQ ;
+             IF { PUSH string "Only admin can check winner" ; FAILWITH } {} ;
+             DUP 2 ;
+             CAR ;
+             CDR ;
+             SWAP ;
+             GET ;
+             IF_NONE
+               { DROP ; PUSH string "Number not picked" ; FAILWITH }
+               { SOME ; UPDATE 2 } }
+           { DUP 2 ;
+             CAR ;
+             CAR ;
+             SENDER ;
+             COMPARE ;
+             EQ ;
+             IF { PUSH string "Admin cannot submit number" ; FAILWITH } {} ;
+             PUSH nat 100 ;
+             DUP 2 ;
+             COMPARE ;
+             GT ;
+             PUSH nat 1 ;
+             DUP 3 ;
+             COMPARE ;
+             LT ;
+             OR ;
+             IF { PUSH string "Number must be between 1 and 100" ; FAILWITH } {} ;
+             DUP 2 ;
+             CAR ;
+             CDR ;
+             DUP 2 ;
+             GET ;
+             IF_NONE
+               { DUP 2 ;
+                 CAR ;
+                 CDR ;
+                 SENDER ;
+                 DIG 2 ;
+                 PAIR 3 ;
+                 DUP 2 ;
+                 DIG 2 ;
+                 CAR ;
+                 DIG 2 ;
+                 UNPAIR 3 ;
+                 SWAP ;
+                 SOME ;
+                 SWAP ;
+                 UPDATE ;
+                 UPDATE 2 ;
+                 UPDATE 1 }
+               { DROP 3 ; PUSH string "Number already picked" ; FAILWITH } } ;
+         NIL operation ;
+         PAIR } ;
+  view "check_winner"
+       nat
+       address
+       { UNPAIR ;
+         SWAP ;
+         CAR ;
+         CDR ;
+         SWAP ;
+         GET ;
+         IF_NONE { PUSH string "Number not picked" ; FAILWITH } {} } }
+
