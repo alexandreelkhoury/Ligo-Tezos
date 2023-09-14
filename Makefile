@@ -20,7 +20,7 @@ install :
 
 ######################################################################
 
-compile: 
+ligo-compile: 
 	@echo "Compilation du contrat..."
 	@$(LIGO) compile contract ./contracts/main.mligo --output-file ./compiled/main.tz
 	@$(LIGO) compile contract ./contracts/main.mligo --michelson-format json --output-file ./compiled/main.json
@@ -28,7 +28,7 @@ compile:
 
 ######################################################################
 
-test: 
+ligo-test: 
 	@echo "Test du contrat..."
 	@$(LIGO) run test ./tests/ligo/main.test.mligo 
 
