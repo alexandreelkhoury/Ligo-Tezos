@@ -1,5 +1,5 @@
 LIGO_VERSION = 0.72.0
-LIGO = sudo docker run --rm -v "$(PWD)":"$(PWD)" -w "$(PWD)" ligolang/ligo:$(LIGO_VERSION)
+LIGO = docker run --rm -v "$(PWD)":"$(PWD)" -w "$(PWD)" ligolang/ligo:$(LIGO_VERSION)
 
 # compile_function = $(LIGO) compile contract --syntax pascaligo //a modifier 
 
